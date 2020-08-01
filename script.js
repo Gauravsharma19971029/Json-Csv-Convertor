@@ -1,6 +1,7 @@
 let input = document.querySelector('input');
 // let textarea = document.querySelector('textarea');
 let valid = true;
+ document.getElementById("loading").style.visibility = "hidden";
 input.addEventListener('change',  async () => {
     let files = input.files;
 
@@ -11,6 +12,8 @@ input.addEventListener('change',  async () => {
     let reader = new FileReader();
     let readContent = "";
     reader.onload = (e) => {
+        document.getElementById("file1").disabled = true;
+        document.getElementById("loading").style.visibility = "visible";
         const file = e.target.result;
         const lines = file.split(/\r\n|\n/);
         // textarea.value = lines.join('\n');
@@ -24,10 +27,14 @@ input.addEventListener('change',  async () => {
     if (this.readyState == 4 && this.status == 200) {
         document.getElementById("getButton").disabled = false;
         alert("Converted Successfully");
+        document.getElementById("file1").disabled = false;
+         document.getElementById("loading").style.visibility = "hidden";
     }
     else if(this.readyState == 4 )
     {
         alert("Error!\n Please check the format of json parsed");
+        document.getElementById("file1").disabled = false;
+             document.getElementById("loading").style.visibility = "hidden";
     }
 }
 xhr.open("POST", "https://jsoncsvgsx.herokuapp.com/", true);
